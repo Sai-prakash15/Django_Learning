@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     #local
-    'relationships'
+    'models'
 ]
 
 MIDDLEWARE = [

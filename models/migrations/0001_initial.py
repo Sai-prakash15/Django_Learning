@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Restaurant',
             fields=[
-                ('place', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='relationships.place')),
+                ('place', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='models.place')),
                 ('serves_hot_dogs', models.BooleanField(default=False)),
                 ('serves_pizza', models.BooleanField(default=False)),
             ],
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('headline', models.CharField(max_length=100)),
                 ('pub_date', models.DateField()),
-                ('reporter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='relationships.reporter')),
+                ('reporter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='models.reporter')),
             ],
         ),
         migrations.CreateModel(
@@ -61,7 +61,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('headline', models.CharField(max_length=100)),
-                ('publications', models.ManyToManyField(to='relationships.Publication')),
+                ('publications', models.ManyToManyField(to='models.Publication')),
             ],
             options={
                 'ordering': ['headline'],
