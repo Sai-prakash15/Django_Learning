@@ -1,4 +1,15 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+
+#presave so clean would be invoked before save automatically
+from django.dispatch import receiver
+from django.db.models.signals import pre_save, post_save
+
+
+@receiver(pre_save)
+def pre_save_handler(sender, instance, *args, **kwargs):
+    instance.full_clean()
+
 
 
 # Create your Models here.
@@ -123,6 +134,11 @@ class Vehicle(models.Model):
     wheel_count = models.IntegerField()
     manufacturer =  models.CharField(max_length=100)
     model_name  = models.CharField(max_length=100, null=True, blank=True)
+
+    def clean(self):
+        if self.wheel_count <= 1 and self.wheel_count is not None:
+            raise ValidationError(('Wheel count must be greater than 1'), code='invalid')
+
 
     def __str__(self):  # __unicode__ on Python 2
         return self.lp_number
