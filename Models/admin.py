@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+# Register your Models here.
 
-from .models import Publication, Article, Reporter, Articler , Place, Restaurant
+from .models import Publication, Article, Reporter, Articler , Place, Restaurant, Content, Video
 
 
 # class ToDoListAdmin(admin.ModelAdmin):
@@ -19,3 +19,6 @@ admin.site.register(Articler)
 admin.site.register(Reporter)
 admin.site.register(Place)
 admin.site.register(Restaurant)
+admin.site.register(Content)
+admin.site.register(Video)
+# admin.site.register(Timestamp)

@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     #local
-    'models'
+    'Models'
 ]
 
 MIDDLEWARE = [
@@ -132,6 +132,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+SHELL_PLUS_PRINT_SQL = True;
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
