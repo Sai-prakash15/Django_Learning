@@ -81,7 +81,7 @@ class Restaurant(models.Model):
         return "%s the restaurant" % self.place.name
 
 
-# Model inheritance (BTS one to one relationship) eg
+## Model inheritance (BTS one to one relationship)
 
 import uuid
 
@@ -114,4 +114,31 @@ class Video(Content):
     class Meta:
         verbose_name = "Video"
         verbose_name_plural = "Videos"
+
+
+# Vehicle , car , truck => where car and truck inherit from
+
+class Vehicle(models.Model):
+    lp_number = models.CharField(max_length=20, unique=True)
+    wheel_count = models.IntegerField()
+    manufacturer =  models.CharField(max_length=100)
+    model_name  = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):  # __unicode__ on Python 2
+        return self.lp_number
+
+class Car(Vehicle):
+    is_air_conditioned = models.BooleanField( blank=False)
+    has_roof_top = models.BooleanField( blank=False)
+    trunk_space =  models.FloatField()
+
+    def __str__(self):  # __unicode__ on Python 2
+        return self.lp_number
+
+class Truck(Vehicle):
+    is_semi_truck = models.BooleanField( blank=False)
+    max_goods_weight = models.FloatField()
+
+    def __str__(self):  # __unicode__ on Python 2
+        return self.lp_number
 
