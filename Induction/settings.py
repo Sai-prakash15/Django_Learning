@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     #local
-    'Models'
+    'Models',
+    'Rest_framework_status'
 ]
 
 MIDDLEWARE = [
