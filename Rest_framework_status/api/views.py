@@ -1,4 +1,5 @@
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, permissions
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -7,7 +8,7 @@ from .serializers import StatusSerializer
 
 class StatusListSearchAPIView(APIView):
     permission_classes = []
-    authentication_classes = []
+    authentication_classes = [SessionAuthentication]
 
     def get(self, request, format= None):
         qs = Status.objects.all()
@@ -35,8 +36,8 @@ class StatusListSearchAPIView(APIView):
 #         return Response(serializer.data)
 
 class StatusAPIView(viewsets.ModelViewSet):
-    permission_classes = []
-    authentication_classes = []
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [SessionAuthentication] #Oauth, JWT
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
     lookup_field = 'id'
@@ -45,4 +46,8 @@ class StatusAPIView(viewsets.ModelViewSet):
         query = self.request.GET.get('q')
         if query is not None:
             qs = qs.filter(content__icontains=query)
+        print(self.request.user)
         return  qs
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
