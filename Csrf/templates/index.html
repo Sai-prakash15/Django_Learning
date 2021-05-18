@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% block title %}<title>Basic form</title>{% endblock %}
+</head>
+<body>
+<h1>Basic form</h1>
+<form  method="POST">
+  {% csrf_token %}
+  <label for="inp1" >dummy1 :</label><input  type="text" id="inp1" name="inp1"><br>
+  <label for="inp2" > dummy2:</label> <input type="text"  id="inp2" name="inp2"> <br>
+  <input type="submit" value="submit">
+</form>
+  {% block sidebar %}<!-- insert default navigation text for every page -->{% endblock %}
+  {% block content %}<!-- default content text (typically empty) -->{% endblock %}
+</body>
+</html>
