@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django_extensions',
     #local
     'Models',
-    'Rest_framework_status'
+    'Rest_framework_status',
+    'Csrf',
+
 ]
 
 MIDDLEWARE = [
