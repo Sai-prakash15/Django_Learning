@@ -30,4 +30,5 @@ urlpatterns = [
     path('csrf/', include('Csrf.urls')),
     path('file_upload/', include('File_Uploads.urls')),
     path('success/url/', views.success),
+    path('polls/', include('polls.urls')),
 ]

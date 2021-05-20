@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'Models',
     'Rest_framework_status',
     'Csrf',
-    'File_Uploads'
+    'File_Uploads',
+    'polls'
 ]
 
 MIDDLEWARE = [
