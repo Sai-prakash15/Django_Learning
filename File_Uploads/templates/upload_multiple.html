@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block title %}<title>Multiple File upload form</title>{% endblock %}
+</head>
+<body>
+<h1>Multiple File upload form</h1>
+<form enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
