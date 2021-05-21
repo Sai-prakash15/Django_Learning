@@ -23,7 +23,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    path('', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/status/', include('Rest_framework_status.api.urls')),
@@ -31,4 +31,5 @@ urlpatterns = [
     path('file_upload/', include('File_Uploads.urls')),
     path('success/url/', views.success),
     path('polls/', include('polls.urls')),
+    path('accounts/', include('Signals.urls')),
 ]

@@ -4,11 +4,13 @@ from django.core.exceptions import ValidationError
 #presave so clean would be invoked before save automatically
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
+# from django.contrib.sessions import Session
 
-
-@receiver(pre_save)
-def pre_save_handler(sender, instance, *args, **kwargs):
-    instance.full_clean()
+# @receiver(pre_save)
+# def pre_save_handler(sender, instance, *args, **kwargs):
+#     if not isinstance(instance, Session):
+#         instance.full_clean()
+#     instance.full_clean()
 
 
 
