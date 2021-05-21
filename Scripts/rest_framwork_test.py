@@ -22,6 +22,7 @@ post_headers = {
 
 GET_ENDPOINT = "http://127.0.0.1:8000/api/status/?page=1"
 get_response = requests.get(GET_ENDPOINT)
+# print(dir(get_response))
 print(get_response.text)
 
 
