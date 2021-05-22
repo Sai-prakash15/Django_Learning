@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from .models import Articler
+from .models import Articler, Reporter
 from rest_framework.views import APIView
 from .serializers import Scenario1Serializer
 from django.db import connection
@@ -90,6 +90,17 @@ class Scenario2(APIView):
     def get(self, request, format=None):
 
 
-        qs = Articler.objects.values_list(F("id")+100)
+        qs = Articler.objects.values_list(F("id")+100, flat=True)
 
-        return Response(qs )
+        return Response(qs)
+
+class Scenario3(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+        qs = Reporter.objects.all()
+        print
+        temp = []
+        for i in qs:
+            temp.append({"id": i.id,"count_of_related_objects":i.articler_set.count()})
+        return Response(temp)
