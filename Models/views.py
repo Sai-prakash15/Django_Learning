@@ -6,6 +6,7 @@ from .serializers import Scenario1Serializer
 from django.shortcuts import render
 from django.db import connection
 from rest_framework.response import Response
+import json
 # Create your views here.
 
 ## tried to implement with generics and model viewsets same behaviour
@@ -58,17 +59,24 @@ class Scenario1(APIView):
         elif query2 is not None:
             qs = qs.filter(headline__iendswith=query2)
 
-        # printing foreign key field data
-
-        for i in qs:
-            #print(qs)
-            # print(i.reporter.first_name)
-            print(i.reporter.first_name)
+        ## printing foreign key field data
+        # Iterating
+        # for i in qs:
+        #     #print(qs)
+        #     # print(i.reporter.first_name)
+        #     print(i.reporter.firstname)
         # print(self.request.user)
 
+        #using queries
+        temp = Articler.objects.values("reporter__firstname")
+        print(temp)
+
+        queries = len(connection.queries)
+        temp = {}
+        temp["queries"] = queries
         serialized_data = Scenario1Serializer(qs, many=True)
-        print(len(connection.queries))
-        return Response(serialized_data.data)
+        data = [temp]
+        return Response(serialized_data.data + data)
 
     # def post(self, request, format=None):
     #     qs = ToDoList.objects.all()

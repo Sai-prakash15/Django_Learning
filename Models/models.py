@@ -52,12 +52,12 @@ class Article(models.Model):
 
 class Reporter(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    firstname = models.CharField(max_length=30)
+    lastname = models.CharField(max_length=30)
     email = models.EmailField(blank=True)
 
     def __str__(self):
-        return "%s %s" % (self.first_name, self.last_name)
+        return "%s %s" % (self.firstname, self.lastname)
 
 
 class Articler(models.Model):
