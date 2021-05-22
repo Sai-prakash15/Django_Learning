@@ -1,11 +1,11 @@
 from rest_framework import viewsets, permissions
 from .models import Articler
-from rest_framework import generics
 from rest_framework.views import APIView
 from .serializers import Scenario1Serializer
-from django.shortcuts import render
 from django.db import connection
 from rest_framework.response import Response
+
+from django.db.models import Count, F, Value
 import json
 # Create your views here.
 
@@ -40,7 +40,7 @@ import json
 #         print(len(connection.queries))
 #         return qs
 
-
+## Using API view
 class Scenario1(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -83,3 +83,13 @@ class Scenario1(APIView):
     #     print(qs)
     #     serialized_data = ToDoListSerializer(qs, many=True)
     #     return Response(serialized_data.data)
+
+class Scenario2(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+
+
+        qs = Articler.objects.values_list(F("id")+100)
+
+        return Response(qs )
