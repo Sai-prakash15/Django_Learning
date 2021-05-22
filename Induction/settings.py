@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #third-part
     'rest_framework',
     'django_extensions',
+    'debug_toolbar',
     #local
     'Models',
     'Rest_framework_status',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,6 +135,13 @@ SHELL_PLUS_PRINT_SQL = True;
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+
 
 from Induction.restconf.main import *
 
