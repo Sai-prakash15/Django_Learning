@@ -131,7 +131,18 @@ class Scenario4(APIView):
 
         return Response(status=status.HTTP_201_CREATED)
 
-        # serializer = PlaceSerializer(data=data)
+
+#Not yet implemented
+class Scenario5(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+    def post(self, request, format=None):
+        # serializer = PlaceSerializer(data=request.data)
+        print(request.data)
+
+
+        return Response(status=status.HTTP_201_CREATED)
         # if serializer.is_valid():
         #     serializer.save()
         #     return Response(serializer.data, status=status.HTTP_201_CREATED)
