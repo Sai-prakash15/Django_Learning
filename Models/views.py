@@ -125,6 +125,7 @@ class Scenario4(APIView):
         while True:
             batch = list(islice(objs, batch_size))
             if not batch:
+                print("Finally")
                 break
             Place.objects.bulk_create(batch, batch_size)
             print("in process...")
