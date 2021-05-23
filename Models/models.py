@@ -74,7 +74,10 @@ class Articler(models.Model):
 
 class Place(models.Model):
     name = models.CharField(max_length=50)
-    address = models.CharField(max_length=80)
+    address = models.CharField(max_length=80, blank= True)
+
+    class Meta:
+        indexes = [models.Index(fields=['name', ]), ]
 
     def __str__(self):
         return "%s the place" % self.name

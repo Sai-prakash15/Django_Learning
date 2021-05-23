@@ -132,7 +132,7 @@ class Scenario4(APIView):
 
         return Response(status=status.HTTP_201_CREATED)
 
-
+import datetime
 #Not yet implemented
 class Scenario5(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -140,11 +140,75 @@ class Scenario5(APIView):
 
     def post(self, request, format=None):
         # serializer = PlaceSerializer(data=request.data)
-        print(request.data)
+        search_list = request.data
+        start_time = datetime.datetime.now()
+        print("started")
+        # res  = Place.objects.in_bulk(search_list, field_name='name') #name field must be unique
+        res = 0
+        for i in search_list:
+            res += Place.objects.filter(name__contains=i).count()
+        end_time = datetime.datetime.now()
+        print(f"Looked up in {end_time - start_time}")
 
-
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(res, status=status.HTTP_201_CREATED)
         # if serializer.is_valid():
         #     serializer.save()
         #     return Response(serializer.data, status=status.HTTP_201_CREATED)
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Scenario6(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+
+
+        qs = Articler.objects.all()
+
+        # Custom filtering
+        query1 = self.request.GET.get('id')
+        query2 = self.request.GET.get('headline')
+        if query1 is not None and query2 is not None:
+            qs = qs.filter(id=query1).filter(headline__iendswith=query2)
+        elif query1 is not None:
+            qs = qs.filter(id=query1)
+        elif query2 is not None:
+            qs = qs.filter(headline__iendswith=query2)
+
+        ## printing foreign key field data
+        # Iterating
+        # for i in qs:
+        #     #print(qs)
+        #     # print(i.reporter.first_name)
+        #     print(i.reporter.firstname)
+        # print(self.request.user)
+
+        #using queries
+        temp = Articler.objects.values("reporter__firstname")
+        print(temp)
+
+        queries = len(connection.queries)
+        temp = {}
+        temp["queries"] = queries
+        serialized_data = ArticlerSerializer(qs, many=True)
+        data = [temp]
+        return Response(serialized_data.data + data)
+
+class Scenario9(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+    def post(self, request, format=None):
+        data = request.data
+        print(data)
+        for i in data:
+            if "id" in i and Place.objects.filter(id=i.get("id")).exists():
+                p = Place.objects.get(id=i.get("id"))
+                p.name = i.get("name")
+                p.save()
+            else:
+                p = Place(name=i.get("name"))
+                print(p)
+                p.save()
+
+        return Response(data, status=status.HTTP_201_CREATED)
