@@ -177,6 +177,15 @@ class Scenario6(APIView):
         # print(res)
         return Response(res + [ {"queries" : len(connection.queries)}])
 
+class Scenario7(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+
+        res =  Person.objects.values("information__content", "task__taskName","place__name")
+
+        return Response(res + [ {"queries" : len(connection.queries)}])
+
 
 class Scenario9(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
