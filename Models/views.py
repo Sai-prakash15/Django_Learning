@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
 from .models import Articler, Reporter
 from rest_framework.views import APIView
-from .serializers import Scenario1Serializer
+from .serializers import ArticlerSerializer
 from django.db import connection
 from rest_framework.response import Response
 
@@ -74,7 +74,7 @@ class Scenario1(APIView):
         queries = len(connection.queries)
         temp = {}
         temp["queries"] = queries
-        serialized_data = Scenario1Serializer(qs, many=True)
+        serialized_data = ArticlerSerializer(qs, many=True)
         data = [temp]
         return Response(serialized_data.data + data)
 
@@ -99,8 +99,40 @@ class Scenario3(APIView):
 
     def get(self, request, format=None):
         qs = Reporter.objects.all()
-        print
         temp = []
         for i in qs:
             temp.append({"id": i.id,"count_of_related_objects":i.articler_set.count()})
         return Response(temp)
+
+
+from faker import Faker
+from .models import Place
+from .serializers import PlaceSerializer
+from rest_framework import status
+from itertools import islice
+class Scenario4(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+    def post(self, request, format=None):
+        print("here")
+        fake = Faker()
+        data = []
+        objs = (Place(name=fake.name(),address= fake.address()) for i in range(100000))
+        print(objs)
+        batch_size = 10000
+
+        while True:
+            batch = list(islice(objs, batch_size))
+            if not batch:
+                break
+            Place.objects.bulk_create(batch, batch_size)
+            print("in process...")
+
+        return Response(status=status.HTTP_201_CREATED)
+
+        # serializer = PlaceSerializer(data=data)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
