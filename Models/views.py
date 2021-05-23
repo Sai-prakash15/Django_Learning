@@ -138,7 +138,6 @@ class Scenario4(APIView):
 import datetime
 
 
-# Not yet implemented
 class Scenario5(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -175,8 +174,8 @@ class Scenario6(APIView):
         for i in qs:
             res.append({"id": i.id, "vehicles": i.vehiclexx_set.values("lp_number"),
                         "Information": InformationXSerializer(i.information.all(), many=True).data, "task": i.task.taskName, "place": i.place.name})
-        print(res)
-        return Response(res)
+        # print(res)
+        return Response(res + [ {"queries" : len(connection.queries)}])
 
 
 class Scenario9(APIView):
