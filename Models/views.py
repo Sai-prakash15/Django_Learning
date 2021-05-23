@@ -1,12 +1,14 @@
 from rest_framework import viewsets, permissions
 from .models import Articler, Reporter
 from rest_framework.views import APIView
-from .serializers import ArticlerSerializer
+from .serializers import ArticlerSerializer, InformationXSerializer
 from django.db import connection
 from rest_framework.response import Response
 
 from django.db.models import Count, F, Value
 import json
+
+
 # Create your views here.
 
 ## tried to implement with generics and model viewsets same behaviour
@@ -46,7 +48,6 @@ class Scenario1(APIView):
 
     def get(self, request, format=None):
 
-
         qs = Articler.objects.all()
 
         # Custom filtering
@@ -67,7 +68,7 @@ class Scenario1(APIView):
         #     print(i.reporter.firstname)
         # print(self.request.user)
 
-        #using queries
+        # using queries
         temp = Articler.objects.values("reporter__firstname")
         print(temp)
 
@@ -84,15 +85,15 @@ class Scenario1(APIView):
     #     serialized_data = ToDoListSerializer(qs, many=True)
     #     return Response(serialized_data.data)
 
+
 class Scenario2(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, format=None):
-
-
-        qs = Articler.objects.values_list(F("id")+100, flat=True)
+        qs = Articler.objects.values_list(F("id") + 100, flat=True)
 
         return Response(qs)
+
 
 class Scenario3(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -101,7 +102,7 @@ class Scenario3(APIView):
         qs = Reporter.objects.all()
         temp = []
         for i in qs:
-            temp.append({"id": i.id,"count_of_related_objects":i.articler_set.count()})
+            temp.append({"id": i.id, "count_of_related_objects": i.articler_set.count()})
         return Response(temp)
 
 
@@ -110,15 +111,16 @@ from .models import Place
 from .serializers import PlaceSerializer
 from rest_framework import status
 from itertools import islice
+
+
 class Scenario4(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
 
     def post(self, request, format=None):
         print("here")
         fake = Faker()
         data = []
-        objs = (Place(name=fake.name(),address= fake.address()) for i in range(100000))
+        objs = (Place(name=fake.name(), address=fake.address()) for i in range(100000))
         print(objs)
         batch_size = 10000
 
@@ -132,11 +134,13 @@ class Scenario4(APIView):
 
         return Response(status=status.HTTP_201_CREATED)
 
+
 import datetime
-#Not yet implemented
+
+
+# Not yet implemented
 class Scenario5(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
 
     def post(self, request, format=None):
         # serializer = PlaceSerializer(data=request.data)
@@ -157,46 +161,26 @@ class Scenario5(APIView):
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+from .models import Person
+
+
 class Scenario6(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, format=None):
-
-
-        qs = Articler.objects.all()
+        qs = Person.objects.all()
 
         # Custom filtering
-        query1 = self.request.GET.get('id')
-        query2 = self.request.GET.get('headline')
-        if query1 is not None and query2 is not None:
-            qs = qs.filter(id=query1).filter(headline__iendswith=query2)
-        elif query1 is not None:
-            qs = qs.filter(id=query1)
-        elif query2 is not None:
-            qs = qs.filter(headline__iendswith=query2)
+        res = []
+        for i in qs:
+            res.append({"id": i.id, "vehicles": i.vehiclexx_set.values("lp_number"),
+                        "Information": InformationXSerializer(i.information.all(), many=True).data, "task": i.task.taskName, "place": i.place.name})
+        print(res)
+        return Response(res)
 
-        ## printing foreign key field data
-        # Iterating
-        # for i in qs:
-        #     #print(qs)
-        #     # print(i.reporter.first_name)
-        #     print(i.reporter.firstname)
-        # print(self.request.user)
-
-        #using queries
-        temp = Articler.objects.values("reporter__firstname")
-        print(temp)
-
-        queries = len(connection.queries)
-        temp = {}
-        temp["queries"] = queries
-        serialized_data = ArticlerSerializer(qs, many=True)
-        data = [temp]
-        return Response(serialized_data.data + data)
 
 class Scenario9(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
 
     def post(self, request, format=None):
         data = request.data
