@@ -116,3 +116,11 @@ class PersonSerializer(serializers.ModelSerializer):
     #     if content is None :
     #         raise serializers.ValidationError("content is required")
     #     return data
+
+class PersonSerializerX(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = [
+            'id',
+            'name'
+        ]

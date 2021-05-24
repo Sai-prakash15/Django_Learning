@@ -234,3 +234,55 @@ class Scenario9(APIView):
                 p.save()
 
         return Response(data, status=status.HTTP_201_CREATED)
+
+class Scenario11(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+        temp = []
+        res =  Person.objects.values("id")
+        temp.append({"values": list(res)})
+
+        res = Person.objects.values_list("id")
+        temp.append({"values_List": list(res)})
+
+        res = PersonSerializer(Person.objects.only("id"), many=True).data
+        temp.append({"only": res})
+
+        res = PersonSerializer(Person.objects.defer("information", "place","task","name"), many=True).data
+        temp.append({"defer": res})
+
+
+        temp.append({"queries": str(len(connection.queries))})
+
+        return Response(temp)
+
+class Scenario11_1(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+        temp = []
+        temp.append({"count": str(Person.objects.count())})
+
+        return Response(temp)
+
+def is_json(data):
+    try:
+        json_data = json.loads(data)
+        is_valid = True
+    except:
+        is_valid = False
+    return is_valid
+from .serializers import PersonSerializerX
+class Scenario11_2(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request,id, format=None):
+        data = request.GET.get('data', None)
+        if(Person.objects.filter(id=id).exists()):
+            if(data == "true"):
+                return Response(PersonSerializerX(Person.objects.get(id=id)).data)
+            else:
+                return Response("False")
+        else:
+            return Response("False")
