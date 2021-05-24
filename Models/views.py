@@ -190,8 +190,31 @@ class Scenario7(APIView):
         # # print(json.dumps(list(res)))
         # json_res = json.dumps(list(res))
         # print(json_res)
-        # res_list = serializers.serialize("json", list(res), fields=('information__content','task__taskName', "place__name"))
+        # res_list = serializers.serialize("json", list(res), fields=('information__content','task__taskName', "place__name")) # Not working
         return Response(res)
+
+from .serializers import PersonSerializer
+class Scenario8(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get(self, request, format=None):
+        temp = []
+        res =  Person.objects.values("id")
+        temp.append({"values": list(res)})
+
+        res = Person.objects.values_list("id")
+        temp.append({"values_List": list(res)})
+
+        res = PersonSerializer(Person.objects.only("id"), many=True).data
+        temp.append({"only": res})
+
+        res = PersonSerializer(Person.objects.defer("information", "place","task","name"), many=True).data
+        temp.append({"defer": res})
+
+
+        temp.append({"queries": str(len(connection.queries))})
+
+        return Response(temp)
 
 
 class Scenario9(APIView):
