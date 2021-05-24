@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your Models here.
 
-from .models import Publication, Article, Reporter, Articler , Place, Restaurant, Content, Video, Car, Truck
+from .models import Publication, Article, Reporter, Articler , Place, Restaurant, Content, Video, Car, Truck, Person,InformationX, PlaceX, TaskX, VehicleXx
 
 
 # class ToDoListAdmin(admin.ModelAdmin):
@@ -23,4 +23,9 @@ admin.site.register(Content)
 admin.site.register(Video)
 admin.site.register(Car)
 admin.site.register(Truck)
+admin.site.register(Person)
+admin.site.register(PlaceX)
+admin.site.register(InformationX)
+admin.site.register(TaskX)
+admin.site.register(VehicleXx)
 # admin.site.register(Timestamp)
