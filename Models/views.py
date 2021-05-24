@@ -161,7 +161,7 @@ class Scenario5(APIView):
 
 
 from .models import Person
-from .serializers import PersonSerializer
+# from .serializers import PersonSerializer
 
 class Scenario6(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -174,17 +174,24 @@ class Scenario6(APIView):
         for i in qs:
             res.append({"id": i.id, "vehicles": i.vehiclexx_set.values("lp_number"),
                         "Information": InformationXSerializer(i.information.all(), many=True).data, "task": i.task.taskName, "place": i.place.name})
-        # print(res)
+        print(res)
         return Response(res + [ {"queries" : len(connection.queries)}])
-
+from django.core import serializers
+from django.http import JsonResponse
 class Scenario7(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, format=None):
 
-        res =  Person.objects.values("information__content", "task__taskName","place__name")
-
-        return Response(PersonSerializer(res, many=True).data + [ {"queries" : len(connection.queries)}])
+        res =  Person.objects.values("id","information__content", "task__taskName","place__name")
+        res = list(res)
+        res.append({"queries" : str(len(connection.queries))})
+        # # print(res)
+        # # print(json.dumps(list(res)))
+        # json_res = json.dumps(list(res))
+        # print(json_res)
+        # res_list = serializers.serialize("json", list(res), fields=('information__content','task__taskName', "place__name"))
+        return Response(res)
 
 
 class Scenario9(APIView):
