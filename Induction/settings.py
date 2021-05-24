@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     #third-part
     'rest_framework',
     'django_extensions',
@@ -45,7 +46,8 @@ INSTALLED_APPS = [
     'Rest_framework_status',
     'Csrf',
     'File_Uploads',
-    'polls'
+    'polls',
+    'Signals'
 ]
 
 MIDDLEWARE = [
