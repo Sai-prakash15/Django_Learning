@@ -34,5 +34,6 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('accounts/', include('Signals.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
-    path('orms/', include('Models.urls'))
+    path('orms/', include('Models.urls')),
+    path('caching/', include('Caching.urls')),
 ]
