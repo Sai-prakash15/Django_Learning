@@ -32,10 +32,7 @@ urlpatterns = [
     path('file_upload/', include('File_Uploads.urls')),
     path('success/url/', views.success),
     path('polls/', include('polls.urls')),
-<<<<<<< HEAD
     path('accounts/', include('Signals.urls')),
-=======
     path('__debug__/', include(debug_toolbar.urls)),
     path('orms/', include('Models.urls'))
->>>>>>> ORM
 ]
