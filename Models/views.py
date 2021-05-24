@@ -161,7 +161,7 @@ class Scenario5(APIView):
 
 
 from .models import Person
-
+from .serializers import PersonSerializer
 
 class Scenario6(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -184,7 +184,7 @@ class Scenario7(APIView):
 
         res =  Person.objects.values("information__content", "task__taskName","place__name")
 
-        return Response(res + [ {"queries" : len(connection.queries)}])
+        return Response(PersonSerializer(res, many=True).data + [ {"queries" : len(connection.queries)}])
 
 
 class Scenario9(APIView):
