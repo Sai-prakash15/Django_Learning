@@ -22,7 +22,7 @@ class Timestamp(models.Model):
     createddate = models.DateField(auto_now_add=True)
 
     def __str__(self):  # __unicode__ on Python 2
-        return self.modifieddate
+        return str(self.modifieddate)
 
     class Meta:
         verbose_name = "Timestamp"
@@ -117,7 +117,7 @@ class Content(models.Model):
     content_subtitle = models.CharField(max_length=255, null=True, blank=True)
     content_headline = models.CharField(max_length=100)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.content_title
 
     class Meta:

@@ -17,6 +17,7 @@ import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
 from File_Uploads import views
+from Models.views import  Transactions, my_view #Sleep_Async
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -35,5 +36,7 @@ urlpatterns = [
     path('accounts/', include('Signals.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
     path('orms/', include('Models.urls')),
+    path('dbtransactions/', Transactions.as_view()),
+    path('sleep_async/', my_view),
     path('caching/', include('Caching.urls')),
 ]
