@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.conf.urls import url
-from .views import  Scenario1, Scenario2, Scenario3,Scenario4, Scenario5, Scenario6,Scenario7,Scenario8, Scenario9, Scenario11, Scenario11_1, Scenario11_2
+from .views import  Scenario1, Scenario2, Scenario3,Scenario4, Scenario5, Scenario6,Scenario7,Scenario8, Scenario9,Scenario10,  Scenario11, Scenario11_1, Scenario11_2
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 router = DefaultRouter()
@@ -22,7 +22,7 @@ urlpatterns = [
     path('scenario7/',Scenario7.as_view()),
     path('scenario8/',Scenario8.as_view()),
     path('scenario9/',Scenario9.as_view()),
-    path('scenario10/',Scenario9.as_view()),
+    path('scenario10/',Scenario10.as_view()),
     path('scenario11/',Scenario11.as_view()),
     path('scenario11/myobjects',Scenario11_1.as_view()),
     path('scenario11/myobjects/<int:id>/',Scenario11_2.as_view()),

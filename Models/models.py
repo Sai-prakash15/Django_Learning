@@ -211,3 +211,12 @@ class VehicleXx(models.Model):
 
     def __str__(self):  # __unicode__ on Python 2
         return self.lp_number
+
+
+
+#Model for scenario 10
+
+class Temp(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):  # __unicode__ on Python 2
+        return self.name

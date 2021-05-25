@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your Models here.
 
-from .models import Publication, Article, Reporter, Articler , Place, Restaurant, Content, Video, Car, Truck, Person,InformationX, PlaceX, TaskX, VehicleXx
+from .models import Publication, Article, Reporter, Articler , Place, Restaurant, Content, Video, Car, Truck, Person,InformationX, PlaceX, TaskX, VehicleXx, Temp
 
 
 # class ToDoListAdmin(admin.ModelAdmin):
@@ -12,6 +12,12 @@ from .models import Publication, Article, Reporter, Articler , Place, Restaurant
 #     #     model = ToDoList
 # class ListItemAdmin(admin.ModelAdmin):
 #     list_display = ['to_do_list', '__str__', 'priority','created_timestamp','modified_timestamp']
+class TempAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+    fieldsets = [
+        (None, {'fields': ['id']}),
+        (None, {'fields': ['name']}),
+    ]
 
 admin.site.register(Publication)
 admin.site.register(Article)
@@ -28,4 +34,5 @@ admin.site.register(PlaceX)
 admin.site.register(InformationX)
 admin.site.register(TaskX)
 admin.site.register(VehicleXx)
+admin.site.register(Temp, TempAdmin)
 # admin.site.register(Timestamp)
