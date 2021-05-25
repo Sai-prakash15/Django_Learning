@@ -37,17 +37,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     #third-part
     'rest_framework',
     'django_extensions',
+    'debug_toolbar',
     #local
     'Models',
     'Rest_framework_status',
     'Csrf',
-    'File_Uploads'
+    'File_Uploads',
+    'polls',
+    'Signals',
+    'Caching'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -91,7 +97,19 @@ DATABASES = {
         'PORT': '',
     }
 }
-
+#--------------CACHING---------------
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "Induction"
+    }
+}
+CACHE_TTL = 60 * 15
+# ----------------------------------
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -132,6 +150,13 @@ SHELL_PLUS_PRINT_SQL = True;
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+
 
 from Induction.restconf.main import *
 
