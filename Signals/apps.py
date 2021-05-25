@@ -7,6 +7,7 @@ class SignalsConfig(AppConfig):
     # import Signals.signals
     def ready(self):
         import Signals.signals
+        import Caching.signals
         # post_save.connect(create_profile, sender='User')
         # post_save.connect(save_profile, sender='User')
 
