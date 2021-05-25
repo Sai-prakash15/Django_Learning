@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from .models import Articler, Reporter
+from .models import Articler, Reporter, Place, Person, Temp, Publication, Content, Vehicle, PlaceX
 from rest_framework.views import APIView
 from .serializers import ArticlerSerializer, InformationXSerializer
 from django.db import connection
@@ -41,7 +41,7 @@ import json
 #         # print(self.request.user)
 #         print(len(connection.queries))
 #         return qs
-
+#-------------------ORMS ----------------------------
 ## Using API view
 class Scenario1(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -107,7 +107,6 @@ class Scenario3(APIView):
 
 
 from faker import Faker
-from .models import Place
 from .serializers import PlaceSerializer
 from rest_framework import status
 from itertools import islice
@@ -160,7 +159,6 @@ class Scenario5(APIView):
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-from .models import Person
 # from .serializers import PersonSerializer
 
 class Scenario6(APIView):
@@ -234,7 +232,6 @@ class Scenario9(APIView):
 
         return Response(data, status=status.HTTP_201_CREATED)
 
-from .models import Temp
 class Scenario10(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -294,6 +291,7 @@ def is_json(data):
     except:
         is_valid = False
     return is_valid
+
 from .serializers import PersonSerializerX
 class Scenario11_2(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -307,3 +305,69 @@ class Scenario11_2(APIView):
                 return Response("False")
         else:
             return Response("False")
+
+
+# ------------------ TRANSACTIONS ----------------------------------
+from django.db import transaction
+
+
+class Transactions(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    @transaction.atomic
+    def post(self, request, format=None):
+        Publication.objects.create(title='IEg');
+        Reporter.objects.create(id=4, firstname="mikes", lastname="Dixon");
+        PlaceX.objects.create(name="Hyderabad_");
+        Content.objects.create(content_slug="www.sdjkfnsad.com",content_title="Rest framework", content_headline="API Learning");
+        Vehicle.objects.create(lp_number="ap23ts1324",wheel_count=4, manufacturer="Suzuki");
+
+        return Response("Succesfull",status=status.HTTP_201_CREATED)
+
+
+# Returned  co-routine ???
+# import asyncio
+# from asgiref.sync import sync_to_async
+# from django.http import HttpResponse
+# from time import sleep
+# class Sleep_Async(APIView):
+#     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+#
+#
+#     # async def update_wheel_count(self, obj, c):
+#     #     await obj.wheel_count = c
+#     #     obj.save()
+#     @sync_to_async
+#     def get_vehicle(self):
+#         if (Vehicle.objects.filter(id=id).exists()):
+#             v = Vehicle.objects.get(id=id)
+#         return v
+#     async def get(self, request, format=None):
+#         id = request.GET.get('id', None)
+#         v = self.get_vehicle()
+#         print("Sleep for 10sec")
+#         await asyncio.sleep(3)
+#         print('Awake')
+#         return Response({f"Updated id: {id} wheel count to 5" })
+
+
+import asyncio
+from django.http import HttpResponse
+from asgiref.sync import sync_to_async
+
+@sync_to_async
+def get_vehicle():
+    if (Vehicle.objects.filter(id=id).exists()):
+        v = Vehicle.objects.get(id=id)
+    return v
+
+async def my_view(request):
+    id = request.GET.get('id', None)
+    v = get_vehicle()
+    print("Sleep for 10sec")
+    await asyncio.sleep(10)
+    print('Awake')
+    # v.wheel_count = 5
+    # self.update_wheel_count(v, 5)
+    return HttpResponse({f"Updated id: {id} wheel count to 5"})
+# ----------------------------------------------------------
