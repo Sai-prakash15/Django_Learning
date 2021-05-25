@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import UploadFileForm
+from rest_framework.views import APIView
 
+#Uploading a single file
 def upload_file(request):
     if request.method == 'POST':
         print("here", request.FILES)
@@ -21,6 +23,7 @@ from django.views.generic.edit import FormView
 from .forms import FileFieldForm
 from .models import FileUpload
 
+# Uploading multiple files
 class FileFieldFormView(FormView):
     form_class = FileFieldForm
     template_name = 'upload_multiple.html'  # Replace with your template.
@@ -36,3 +39,17 @@ class FileFieldFormView(FormView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+import  base64
+from rest_framework.response import Response
+# File data base 64 encoded via JSON
+import json
+
+
+class Base64(APIView):
+    def post(self, request):
+        data = request.data['encoded_data']  # {"encoded_data": "aGVsbG8="}
+        decoded = base64.b64decode(data)
+        return Response({
+            'Decoded text ': decoded
+        })
