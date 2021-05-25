@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+#polls app is created for custom management commands and custom middleware
 # Create your views here.
 from django.http import HttpResponse
 
