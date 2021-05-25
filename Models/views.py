@@ -219,7 +219,6 @@ class Scenario8(APIView):
 
 class Scenario9(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
     def post(self, request, format=None):
         data = request.data
         print(data)
@@ -241,18 +240,21 @@ class Scenario10(APIView):
 
     def post(self, request, format=None):
         data = request.data # input list of id's
-        print(data)
+        # print(data)
         l = len(data)
         res = []
         for i in range(l//2):
             # print("i",data[i],i)
             if  Temp.objects.filter(id=data[i]).exists():
+                with connection.cursor() as cursor:
+                    cursor.execute('DELETE FROM "Models_temp" WHERE id = %s', [data[i]])
                 res.append(data[i])
         for j in range(l//2, l):
             if Temp.objects.filter(id=data[j]).exists():
                 res.append(data[j])
+                Temp.objects.get(id=data[j]).delete()
 
-        return Response(res, status=status.HTTP_201_CREATED)
+        return Response([{"deleted ids": res}], status=status.HTTP_201_CREATED)
 
 class Scenario11(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
