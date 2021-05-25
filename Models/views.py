@@ -235,6 +235,25 @@ class Scenario9(APIView):
 
         return Response(data, status=status.HTTP_201_CREATED)
 
+from .models import Temp
+class Scenario10(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def post(self, request, format=None):
+        data = request.data # input list of id's
+        print(data)
+        l = len(data)
+        res = []
+        for i in range(l//2):
+            # print("i",data[i],i)
+            if  Temp.objects.filter(id=data[i]).exists():
+                res.append(data[i])
+        for j in range(l//2, l):
+            if Temp.objects.filter(id=data[j]).exists():
+                res.append(data[j])
+
+        return Response(res, status=status.HTTP_201_CREATED)
+
 class Scenario11(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
