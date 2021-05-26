@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from .models import Articler, Reporter, Place, Person, Temp, Publication, Content, Vehicle, PlaceX
+from .models import Articler, Reporter, Place, Person, Temp, Publication, Content,  PlaceX #Vehicle,
 from rest_framework.views import APIView
 from .serializers import ArticlerSerializer, InformationXSerializer
 from django.db import connection

@@ -15,7 +15,7 @@ from django.db.models.signals import pre_save, post_save
 
 # Create your Models here.
 
-# model inheritance of timestamp parent class
+# model inheritance of timestamp parent class (Abstract inheritance)
 
 class Timestamp(models.Model):
     modifieddate = models.DateField(auto_now=True)
@@ -27,6 +27,7 @@ class Timestamp(models.Model):
     class Meta:
         verbose_name = "Timestamp"
         verbose_name_plural = "Timestamps"
+        abstract = True
 
 
 # Relationships and meta options
@@ -141,7 +142,7 @@ class Video(Content):
 
 
 # Vehicle , car , truck => where car and truck inherit from
-
+# Multi-table inheritance
 class Vehicle(models.Model):
     lp_number = models.CharField(max_length=20, unique=True)
     wheel_count = models.IntegerField()
