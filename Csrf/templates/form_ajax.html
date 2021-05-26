@@ -6,19 +6,21 @@
     <script>
    $( document ).ready(function(){
             //Perform Ajax request.
-            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            var myKeyVals = {'csrfmiddlewaretoken': csrftoken , inp1 : 1, inp2 : 5, }
-            $.ajax({
-                url: "{% url 'FormAjax' %}",
-                type: 'POST',
-                data: myKeyVals,
-                success: function(){
-                    $('#result').html("Success");
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    var errorMsg = 'Ajax request failed: ' + xhr.responseText;
-                    $('#result').html(errorMsg);
-                  }
+            $("form").submit(function(){
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                var myKeyVals = {'csrfmiddlewaretoken': csrftoken , inp1 : $('#inp1').value, inp2 : $('#inp2').value, }
+                $.ajax({
+                    url: "{% url 'FormAjax' %}",
+                    type: 'POST',
+                    data: myKeyVals,
+                    success: function(){
+                      alert("Success");
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+                        $('#result').html(errorMsg);
+                      }
+                });
             });
         });
 
@@ -30,8 +32,7 @@
     {% csrf_token %}
     <label for="inp1">dummy1 :</label><input type="text" id="inp1" name="inp1"><br>
     <label for="inp2"> dummy2:</label> <input type="text" id="inp2" name="inp2"> <br>
-    <input type="submit" value="submit"><br>
-    ON Load Request: <div id="result"></div>
+    <input type="submit" value="submit">
 </form>
 </body>
 </html>

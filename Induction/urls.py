@@ -39,5 +39,5 @@ urlpatterns = [
     path('dbtransactions/', Transactions.as_view()),
     path('sleep_async/', my_view),
     path('caching/', include('Caching.urls')),
-    path('new/', Middleware.as_view()),
+    path('encrypt_decrypt/', Middleware.as_view()),
 ]

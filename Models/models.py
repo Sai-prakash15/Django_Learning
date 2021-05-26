@@ -53,7 +53,6 @@ class Article(models.Model):
 # many to one
 
 class Reporter(models.Model):
-    id = models.BigIntegerField(primary_key=True)
     firstname = models.CharField(max_length=30)
     lastname = models.CharField(max_length=30)
     email = models.EmailField(blank=True)

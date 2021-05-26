@@ -142,7 +142,7 @@ class Scenario5(APIView):
 
     def post(self, request, format=None):
         # serializer = PlaceSerializer(data=request.data)
-        search_list = request.data
+        search_list = request.data   #["john"]
         start_time = datetime.datetime.now()
         print("started")
         # res  = Place.objects.in_bulk(search_list, field_name='name') #name field must be unique
@@ -218,7 +218,7 @@ class Scenario8(APIView):
 class Scenario9(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def post(self, request, format=None):
-        data = request.data
+        data = request.data  #  [{"id": 1, "name": "blah"}, {"name": "blah blah"}]
         print(data)
         for i in data:
             if "id" in i and Place.objects.filter(id=i.get("id")).exists():
@@ -236,7 +236,7 @@ class Scenario10(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def post(self, request, format=None):
-        data = request.data # input list of id's
+        data = request.data # input list of id's of temp model
         # print(data)
         l = len(data)
         res = []
@@ -354,28 +354,33 @@ class Transactions(APIView):
 import asyncio
 from django.http import HttpResponse
 from asgiref.sync import sync_to_async
+# from channels.db import database_sync_to_async
 
 @sync_to_async
-def get_vehicle():
+def get_vehicle(id):
     if (Vehicle.objects.filter(id=id).exists()):
         v = Vehicle.objects.get(id=id)
     return v
 
+@sync_to_async
+def update_wheel_count(obj,c):
+        obj.wheel_count = c
+        obj.save()
+        print("Updated the wheel count")
 async def my_view(request):
     id = request.GET.get('id', None)
-    v = get_vehicle()
+    v =await get_vehicle(id)
     print("Sleep for 10sec")
-    await asyncio.sleep(10)
+    await asyncio.sleep(1)
     print('Awake')
-    # v.wheel_count = 5
-    # self.update_wheel_count(v, 5)
+    await update_wheel_count(v, 5)
     return HttpResponse({f"Updated id: {id} wheel count to 5"})
 # ----------------------------------------------------------
 
 
 #--------------MIDDLEWARE------------------------------------
 from rest_framework.parsers import JSONParser
-class Middleware(APIView):
+class Middleware(APIView): #(input: in content in API View ["gAAAAABgrgrPkaKxIZebn9k0s7CZC2dmne3JIG6EhkFjH5r0NyNQ1CavQMf38AWjFPtGDgMnFUdl-_a51BCMmStRhU1kPbZYcw=="])
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def post(self, request, format="None"):
