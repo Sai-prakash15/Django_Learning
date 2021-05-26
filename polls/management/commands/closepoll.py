@@ -25,7 +25,10 @@ class Command(BaseCommand):
                 poll.delete()
                 self.stdout.write(self.style.SUCCESS('Successfully deleted poll "%s"' % poll_id))
             else:
-                poll.opened = False
-                poll.save()
-                self.stdout.write(self.style.SUCCESS('Successfully closed poll "%s"' % poll_id))
+                if(poll.opened == False):
+                    self.stdout.write(self.style.ERROR('"%s" poll is already closed' % poll_id))
+                else:
+                    poll.opened = False
+                    poll.save()
+                    self.stdout.write(self.style.SUCCESS('Successfully closed poll "%s"' % poll_id))
 
