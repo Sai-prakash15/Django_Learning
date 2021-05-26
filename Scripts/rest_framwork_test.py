@@ -63,9 +63,22 @@ data = {
 
 r = requests.post(AUTH_ENDPOINT, data=data)
 token = r.json()["access"]
-print(token)
+# print(token)
 
+# Encrypting the data
+from cryptography.fernet import Fernet
+from Induction.settings import  key
 post_data = "Hello"
+encoded =  post_data.encode()
+print("post data:", post_data)
+
+f = Fernet(key)
+post_data = f.encrypt(encoded)
+print("Encrypting post data:", post_data.decode('UTF-8'))
+print()
+# post_data =["gAAAAABgrgrPkaKxIZebn9k0s7CZC2dmne3JIG6EhkFjH5r0NyNQ1CavQMf38AWjFPtGDgMnFUdl-_a51BCMmStRhU1kPbZYcw=="]
+###
+
 post_headers = {
     'content-type' : 'text/html',
     "Authorization": "Bearer "+ token,
@@ -73,6 +86,9 @@ post_headers = {
 
 
 post_response = requests.post(ENDPOINT, data=post_data, headers = post_headers)
-# print(post_response.text)
+print("Response Decrypted :",post_response.text)
+
+print("After decrypting response", f.decrypt(post_response.text.encode()).decode('UTF-8'))
+
 
 

@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from .models import Articler, Reporter, Place, Person, Temp, Publication, Content,  PlaceX #Vehicle,
+from .models import Articler, Reporter, Place, Person, Temp, Publication, Content,  PlaceX ,Vehicle
 from rest_framework.views import APIView
 from .serializers import ArticlerSerializer, InformationXSerializer
 from django.db import connection
@@ -371,3 +371,22 @@ async def my_view(request):
     # self.update_wheel_count(v, 5)
     return HttpResponse({f"Updated id: {id} wheel count to 5"})
 # ----------------------------------------------------------
+
+
+#--------------MIDDLEWARE------------------------------------
+from rest_framework.parsers import JSONParser
+class Middleware(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def post(self, request, format="None"):
+        print("------------IN VIEW -------------")
+        # input list of id's
+        print("Decrypted data from middleware",request.decrypted)
+
+        return Response("World")
+
+# def Middleware(request):
+#     if request.method == 'POST':
+#         print("here", request.decrypted)
+#         return Response("World")
+

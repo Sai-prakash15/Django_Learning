@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from cryptography.fernet import Fernet
 import cryptography
 from Induction.settings import  key
-
+from django.http import HttpResponse
 urls = ["/new/"]
 class CustomMiddleWare:
     def __init__(self, get_response):
@@ -11,48 +11,52 @@ class CustomMiddleWare:
 
 
     def __call__(self, request):
-
-        print("Before the view is executed")
-        encrypted = self.process_request(request)
-        self.process_response(request,encrypted)
+        if (request.path not in urls):
+            response = self.get_response(request)
+            return response
+        print("-----------Before the view is executed------------------")
+        request = self.process_request(request)
         response = self.get_response(request)
-        print("After the view is executed")
+        print("---------------After the view is executed----------------")
+        response = self.process_response(request, response)
         return response
 
-    def process_view(self, request, view_func, view_args, view_kwargs):
-        print('----- Middleware view %s' % view_func.__name__)
-        return None
+    # def process_view(self, request, view_func, view_args, view_kwargs):
+    #     print('----- Middleware view %s' % view_func.__name__)
+    #     return view_func(request)
 
     def process_request(self, request):
         if (request.path not in urls):
             return request
         print("PROCESS REQUEST")
         if(request.method == "POST"):
-            print("Before encryption",request.body)
-            encoded = request.body
+            print("Before decryption",request.body)
             f = Fernet(key)
-            encrypted = f.encrypt(encoded)
-            print("After encryption",encrypted)
-
+            decrypted = f.decrypt(request.body)
+            print("After decryption",decrypted)
+            request.decrypted = decrypted
             # print(request.body)
             # body = json.loads(request.body)
             # print(body)
-        return encrypted
+        return request
 
-    def process_response(self, request, encrypted):
+    def process_response(self, request, response):
+
         print("PROCESS RESPONSE")
         if (request.path not in urls):
             return
         if (request.method == "POST"):
-            # print(response)
             # print(request.body)
+            print("Before encrypting response",response.data)
             fernet = Fernet(key)
-            decrypted = fernet.decrypt(encrypted)  # Here request.body should be encrypted
-            print("After decryption",decrypted)
+            encrypted = fernet.encrypt(response.data.encode())  # Here request.body should be encrypted
+            print("After encrypted response",encrypted)
+            return HttpResponse(encrypted)
             # response = decrypted
             #print(dir(response))
             # print(response.data["results"])
             # print(response.results)
             # body = json.loads(response.results)
             # print(body)
+        return response
         # print('"The Dark Knight is the best superhero movie of all time"')
