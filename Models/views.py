@@ -181,7 +181,8 @@ class Scenario7(APIView):
 
     def get(self, request, format=None):
 
-        res =  Person.objects.values("id","information__content", "task__taskName","place__name")
+        res =  Person.objects.prefetch_related("vehiclexx_set__person").values("id","information__content", "task__taskName","place__name", "vehiclexx__lp_number")
+        # print(Person.objects.prefetch_related("vehiclexx_set__person").values("vehiclexx__lp_number"))
         res = list(res)
         res.append({"queries" : str(len(connection.queries))})
         # # print(res)
