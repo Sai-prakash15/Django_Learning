@@ -189,7 +189,7 @@ class TaskX(models.Model):
 # Model X
 class Person(models.Model):
     name = models.CharField(max_length=50)
-    task = models.ForeignKey(TaskX, on_delete=models.CASCADE); #many humans can work on one particular task
+    task = models.ForeignKey(TaskX, on_delete=models.CASCADE); #many persons can work on one particular task
     place = models.OneToOneField(PlaceX, on_delete=models.CASCADE);
     information = models.ManyToManyField(InformationX)
 
@@ -199,7 +199,7 @@ class Person(models.Model):
 
 
 class VehicleXx(models.Model):
-    person =  models.ForeignKey(Person, on_delete=models.CASCADE); #  One herson can own many vehicles
+    person =  models.ForeignKey(Person, on_delete=models.CASCADE); #  One person can own many vehicles
     lp_number = models.CharField(max_length=20, unique=True)
     wheel_count = models.IntegerField()
     manufacturer = models.CharField(max_length=100)
