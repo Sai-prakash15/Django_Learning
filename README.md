@@ -9,8 +9,8 @@ This project mainly showcases most of the concepts in Django
 Concepts covered are:
 
 1. Authentication
-  - Third party authentication (JWT)
-  - Custom authentication
+  - Third party token authentication (JWT)
+  - Custom token authentication
 
 2. Models
 
