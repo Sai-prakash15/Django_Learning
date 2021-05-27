@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'File_Uploads',
     'polls',
     'Signals',
-    'Caching'
+    'Caching',
+    'customauth'
 ]
 
 MIDDLEWARE = [
