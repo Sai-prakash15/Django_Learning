@@ -21,7 +21,7 @@ class Timestamp(models.Model):
     modifieddate = models.DateField(auto_now=True)
     createddate = models.DateField(auto_now_add=True)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return str(self.modifieddate)
 
     class Meta:
@@ -132,7 +132,7 @@ class Video(Content):
     video_embed = models.TextField(null=True, blank=True)
     video_copyright = models.TextField(null=True, blank=True)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.content_title
 
     class Meta:
@@ -152,7 +152,7 @@ class Vehicle(models.Model):
         if self.wheel_count <= 1 and self.wheel_count is not None:
             raise ValidationError(('Wheel count must be greater than 1'), code='invalid')
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.lp_number
 
 
@@ -161,7 +161,7 @@ class Car(Vehicle):
     has_roof_top = models.BooleanField(blank=False)
     trunk_space = models.FloatField()
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.lp_number
 
 
@@ -169,21 +169,21 @@ class Truck(Vehicle):
     is_semi_truck = models.BooleanField(blank=False)
     max_goods_weight = models.FloatField()
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.lp_number
 
 
 class InformationX(models.Model):
     content = models.CharField(max_length=20)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.content
 
 
 class TaskX(models.Model):
     taskName = models.CharField(max_length=20)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.taskName
 
 # Model X
@@ -193,7 +193,7 @@ class Person(models.Model):
     place = models.OneToOneField(PlaceX, on_delete=models.CASCADE);
     information = models.ManyToManyField(InformationX)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.name
 
 
@@ -209,7 +209,7 @@ class VehicleXx(models.Model):
         if self.wheel_count <= 1 and self.wheel_count is not None:
             raise ValidationError(('Wheel count must be greater than 1'), code='invalid')
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.lp_number
 
 
@@ -218,5 +218,5 @@ class VehicleXx(models.Model):
 
 class Temp(models.Model):
     name = models.CharField(max_length=50)
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.name
