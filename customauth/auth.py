@@ -33,15 +33,17 @@ class CustomAuthentication(BaseAuthentication):
             [token] -- [userobj]
         """
         try:
-            username = request.META.get('HTTP_X_USERNAME')
+            # username = request.GET.get('HTTP_X_USERNAME')
+            # print(username)
             auth_header_value = request.META.get("HTTP_AUTHORIZATION", "")
+            print(auth_header_value)
             if auth_header_value:
                 authmeth, auth = request.META["HTTP_AUTHORIZATION"].split(" ", 1)
                 if not auth:
                     return None
                 if not authmeth.lower() == "bearer":
                     return None
-                token = CustomAuthentication.verify_access_token(username, auth)
+                token = CustomAuthentication.verify_access_token(request, auth)
                 return (token, None)
             else:
                 raise ClientNotFound()
@@ -66,7 +68,8 @@ class CustomAuthentication(BaseAuthentication):
         """
         if AuthToken.objects.filter(access_token=auth).exists():
             token = AuthToken.objects.get(access_token=auth)
-            user = User.objects.get_or_create(username=username)[0]
+            user = User.objects.get_or_create(username=token.user)[0]
+            # print(user)
             if token.expiry_date < timezone.now():
                 token.expired = True
                 token.save()

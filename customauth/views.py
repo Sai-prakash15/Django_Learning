@@ -133,15 +133,15 @@ class RefreshAccessView(APIView):
         details = request.data
         req_refresh_token = details["refresh_token"]
         try:
-            token_present = AuthToken.objects.get(refresh_token=req_refresh_token)
-            token = AuthToken.objects.get(application=token_present)
+            token = AuthToken.objects.get(refresh_token=req_refresh_token)
             if timezone.now() < token.refresh_token_expiry:
+                print("here")
                 token.access_token = generate_client_secret()
                 token.expiry_date = timezone.now() + timedelta(hours=2)
                 token.save()
                 res = (
                     AuthToken.objects.filter(refresh_token=req_refresh_token)
-                        .order_by("-application_id")[0:1]
+                        .order_by("-user_id")[0:1]
                         .values()
                 )
             else:
