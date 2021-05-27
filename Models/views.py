@@ -68,7 +68,7 @@ class Scenario1(APIView):
         #     print(i.reporter.firstname)
         # print(self.request.user)
 
-        # using queries
+        # using queries or Select related can be used above
         temp = Articler.objects.values("reporter__firstname")
         print(temp)
 
