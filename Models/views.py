@@ -312,8 +312,14 @@ from .serializers import PersonSerializerX
 class Scenario11_2(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def get(self, request, id, format=None):
+    def get(self, request,id,  *args, **kwargs):
+        # print(args)
+        # print(kwargs)
+        # print(self.kwargs)
         data = request.GET.get('data', None)
+        # print(data)
+        if(data == None):
+            data = self.kwargs.get("data", None)
         if (Person.objects.filter(id=id).exists()):
             if (data == "true"):
                 return Response(PersonSerializerX(Person.objects.get(id=id)).data)
