@@ -9,16 +9,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_PAGINATION_CLASS' : 'Induction.restconf.pagination.customPagination',
+    'DEFAULT_PAGINATION_CLASS': 'Induction.restconf.pagination.customPagination',
     'DEFAULT_FILTER_BACKENDS': (
-            'rest_framework.filters.SearchFilter',
-            'rest_framework.filters.OrderingFilter',
-        ),
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ),
     'SEARCH_PARAM': 'q',
     'ORDERING_PARAM': 'ordering',
 }
 
-
-
 from Induction.settings import *
-

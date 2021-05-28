@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 # #----------------------Authentication-----------------------------
 # ENDPOINT = "http://127.0.0.1:8000/api/status/"
 # AUTH_ENDPOINT = "http://127.0.0.1:8000/api/token/"
@@ -46,19 +45,18 @@ import json
 #
 # post_response = requests.post(ENDPOINT, data=post_data, headers = post_headers)
 # print(post_response.text)
-#---------------------------------------------------------------------
+# ---------------------------------------------------------------------
 
 
-#------------------MIDDLEWARE ---------------------------
+# ------------------MIDDLEWARE ---------------------------
 
 from Induction.settings import key
-
 
 ENDPOINT = "http://127.0.0.1:8000/new/"
 AUTH_ENDPOINT = "http://127.0.0.1:8000/api/token/"
 data = {
-    "username" : 'admin',
-    "password" : 'admin'
+    "username": 'admin',
+    "password": 'admin'
 }
 
 r = requests.post(AUTH_ENDPOINT, data=data)
@@ -67,9 +65,10 @@ token = r.json()["access"]
 
 # Encrypting the data
 from cryptography.fernet import Fernet
-from Induction.settings import  key
+from Induction.settings import key
+
 post_data = "Hello"
-encoded =  post_data.encode()
+encoded = post_data.encode()
 print("post data:", post_data)
 
 f = Fernet(key)
@@ -80,15 +79,11 @@ print()
 ###
 
 post_headers = {
-    'content-type' : 'text/html',
-    "Authorization": "Bearer "+ token,
+    'content-type': 'text/html',
+    "Authorization": "Bearer " + token,
 }
 
-
-post_response = requests.post(ENDPOINT, data=post_data, headers = post_headers)
-print("Response Decrypted :",post_response.text)
+post_response = requests.post(ENDPOINT, data=post_data, headers=post_headers)
+print("Response Decrypted :", post_response.text)
 
 print("After decrypting response", f.decrypt(post_response.text.encode()).decode('UTF-8'))
-
-
-

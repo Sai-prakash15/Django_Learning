@@ -5,8 +5,10 @@ from django.http import HttpResponse
 
 from django.views import View
 
+
 class Index(View):
     template_name = 'index.html'
+
     def get(self, request):
         # <view logic>
         return render(request, self.template_name)
@@ -20,8 +22,10 @@ class Index(View):
 
         return render(request, self.template_name)
 
+
 class FormAjax(View):
     template_name = 'form_ajax.html'
+
     def get(self, request):
         # <view logic>
         return render(request, self.template_name)

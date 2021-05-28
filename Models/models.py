@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 # presave so clean would be invoked before save automatically
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
+
+
 # from django.contrib.sessions import Session
 
 # @receiver(pre_save)
@@ -80,6 +82,7 @@ class PlaceX(models.Model):
 
     def __str__(self):
         return "%s the place" % self.name
+
 
 class Place(models.Model):
     name = models.CharField(max_length=50)
@@ -186,10 +189,11 @@ class TaskX(models.Model):
     def __str__(self):
         return self.taskName
 
+
 # Model X
 class Person(models.Model):
     name = models.CharField(max_length=50)
-    task = models.ForeignKey(TaskX, on_delete=models.CASCADE); #many persons can work on one particular task
+    task = models.ForeignKey(TaskX, on_delete=models.CASCADE);  # many persons can work on one particular task
     place = models.OneToOneField(PlaceX, on_delete=models.CASCADE);
     information = models.ManyToManyField(InformationX)
 
@@ -197,9 +201,8 @@ class Person(models.Model):
         return self.name
 
 
-
 class VehicleXx(models.Model):
-    person =  models.ForeignKey(Person, on_delete=models.CASCADE); #  One person can own many vehicles
+    person = models.ForeignKey(Person, on_delete=models.CASCADE);  # One person can own many vehicles
     lp_number = models.CharField(max_length=20, unique=True)
     wheel_count = models.IntegerField()
     manufacturer = models.CharField(max_length=100)
@@ -213,10 +216,10 @@ class VehicleXx(models.Model):
         return self.lp_number
 
 
-
-#Model for scenario 10
+# Model for scenario 10
 
 class Temp(models.Model):
     name = models.CharField(max_length=50)
+
     def __str__(self):
         return self.name

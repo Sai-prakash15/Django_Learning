@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('Models', '0001_initial'),
     ]
@@ -24,7 +23,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Car',
             fields=[
-                ('vehicle_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='Models.vehicle')),
+                ('vehicle_ptr',
+                 models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True,
+                                      primary_key=True, serialize=False, to='Models.vehicle')),
                 ('is_air_conditioned', models.BooleanField()),
                 ('has_roof_top', models.BooleanField()),
                 ('trunk_space', models.FloatField()),
@@ -34,7 +35,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Truck',
             fields=[
-                ('vehicle_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='Models.vehicle')),
+                ('vehicle_ptr',
+                 models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True,
+                                      primary_key=True, serialize=False, to='Models.vehicle')),
                 ('is_semi_truck', models.BooleanField()),
                 ('max_goods_weight', models.FloatField()),
             ],

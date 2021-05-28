@@ -3,7 +3,6 @@ from rest_framework import serializers
 from Models.models import Articler, Place, InformationX, Person
 
 
-
 class ArticlerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articler
@@ -14,6 +13,7 @@ class ArticlerSerializer(serializers.ModelSerializer):
             'reporter'
         ]
         read_only_fields = ['user']
+
     # def validate_content(self, value):
     #     if len(value) > 10000000:
     #         raise serializers.ValidationError("Way too long")
@@ -23,7 +23,7 @@ class ArticlerSerializer(serializers.ModelSerializer):
         headline = data.get("headline", None)
         if headline == "":
             headline = None
-        if headline is None :
+        if headline is None:
             raise serializers.ValidationError("headline is required")
         return data
 
@@ -37,6 +37,7 @@ class PlaceSerializer(serializers.ModelSerializer):
             'address',
         ]
         read_only_fields = ['user']
+
     # def validate_content(self, value):
     #     if len(value) > 10000000:
     #         raise serializers.ValidationError("Way too long")
@@ -46,9 +47,10 @@ class PlaceSerializer(serializers.ModelSerializer):
         name = data.get("name", None)
         if name == "":
             headline = None
-        if name is None :
+        if name is None:
             raise serializers.ValidationError("name is required")
         return data
+
 
 class InformationXSerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,6 +60,7 @@ class InformationXSerializer(serializers.ModelSerializer):
             'content',
         ]
         read_only_fields = ['user']
+
     # def validate_content(self, value):
     #     if len(value) > 10000000:
     #         raise serializers.ValidationError("Way too long")
@@ -67,9 +70,10 @@ class InformationXSerializer(serializers.ModelSerializer):
         content = data.get("content", None)
         if content == "":
             content = None
-        if content is None :
+        if content is None:
             raise serializers.ValidationError("content is required")
         return data
+
 
 # class PersonSerializer(serializers.ModelSerializer):
 #     information = InformationXSerializer(read_only=True)
@@ -116,6 +120,7 @@ class PersonSerializer(serializers.ModelSerializer):
     #     if content is None :
     #         raise serializers.ValidationError("content is required")
     #     return data
+
 
 class PersonSerializerX(serializers.ModelSerializer):
     class Meta:

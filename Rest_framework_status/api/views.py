@@ -38,8 +38,6 @@ from .serializers import StatusSerializer
 #         return Response(serializer.data)
 
 
-
-
 class StatusAPIView(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Status.objects.all()

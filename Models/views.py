@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from .models import Articler, Reporter, Place, Person, Temp, Publication, Content,  PlaceX ,Vehicle
+from .models import Articler, Reporter, Place, Person, Temp, Publication, Content, PlaceX, Vehicle
 from rest_framework.views import APIView
 from .serializers import ArticlerSerializer, InformationXSerializer
 from django.db import connection
@@ -41,7 +41,7 @@ import json
 #         # print(self.request.user)
 #         print(len(connection.queries))
 #         return qs
-#-------------------ORMS ----------------------------
+# -------------------ORMS ----------------------------
 ## Using API view
 class Scenario1(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -142,7 +142,7 @@ class Scenario5(APIView):
 
     def post(self, request, format=None):
         # serializer = PlaceSerializer(data=request.data)
-        search_list = request.data   #["john"]
+        search_list = request.data  # ["john"]
         start_time = datetime.datetime.now()
         print("started")
         # res  = Place.objects.in_bulk(search_list, field_name='name') #name field must be unique
@@ -171,20 +171,26 @@ class Scenario6(APIView):
         res = []
         for i in qs:
             res.append({"id": i.id, "vehicles": i.vehiclexx_set.values("lp_number"),
-                        "Information": InformationXSerializer(i.information.all(), many=True).data, "task": i.task.taskName, "place": i.place.name})
+                        "Information": InformationXSerializer(i.information.all(), many=True).data,
+                        "task": i.task.taskName, "place": i.place.name})
         print(res)
-        return Response(res + [ {"queries" : len(connection.queries)}])
+        return Response(res + [{"queries": len(connection.queries)}])
+
+
 from django.core import serializers
 from django.http import JsonResponse
+
+
 class Scenario7(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, format=None):
-
-        res =  Person.objects.prefetch_related("vehiclexx_set__person").values("id","information__content", "task__taskName","place__name", "vehiclexx__lp_number")
+        res = Person.objects.prefetch_related("vehiclexx_set__person").values("id", "information__content",
+                                                                              "task__taskName", "place__name",
+                                                                              "vehiclexx__lp_number")
         # print(Person.objects.prefetch_related("vehiclexx_set__person").values("vehiclexx__lp_number"))
         res = list(res)
-        res.append({"queries" : str(len(connection.queries))})
+        res.append({"queries": str(len(connection.queries))})
         # # print(res)
         # # print(json.dumps(list(res)))
         # json_res = json.dumps(list(res))
@@ -192,13 +198,16 @@ class Scenario7(APIView):
         # res_list = serializers.serialize("json", list(res), fields=('information__content','task__taskName', "place__name")) # Not working
         return Response(res)
 
+
 from .serializers import PersonSerializer
+
+
 class Scenario8(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, format=None):
         temp = []
-        res =  Person.objects.values("id")
+        res = Person.objects.values("id")
         temp.append({"values": list(res)})
 
         res = Person.objects.values_list("id")
@@ -207,9 +216,8 @@ class Scenario8(APIView):
         res = PersonSerializer(Person.objects.only("id"), many=True).data
         temp.append({"only": res})
 
-        res = PersonSerializer(Person.objects.defer("information", "place","task","name"), many=True).data
+        res = PersonSerializer(Person.objects.defer("information", "place", "task", "name"), many=True).data
         temp.append({"defer": res})
-
 
         temp.append({"queries": str(len(connection.queries))})
 
@@ -218,8 +226,9 @@ class Scenario8(APIView):
 
 class Scenario9(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
     def post(self, request, format=None):
-        data = request.data  #  [{"id": 1, "name": "blah"}, {"name": "blah blah"}]
+        data = request.data  # [{"id": 1, "name": "blah"}, {"name": "blah blah"}]
         print(data)
         for i in data:
             if "id" in i and Place.objects.filter(id=i.get("id")).exists():
@@ -233,33 +242,35 @@ class Scenario9(APIView):
 
         return Response(data, status=status.HTTP_201_CREATED)
 
+
 class Scenario10(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def post(self, request, format=None):
-        data = request.data # input list of id's of temp model
+        data = request.data  # input list of id's of temp model
         # print(data)
         l = len(data)
         res = []
-        for i in range(l//2):
+        for i in range(l // 2):
             # print("i",data[i],i)
-            if  Temp.objects.filter(id=data[i]).exists():
+            if Temp.objects.filter(id=data[i]).exists():
                 with connection.cursor() as cursor:
                     cursor.execute('DELETE FROM "Models_temp" WHERE id = %s', [data[i]])
                 res.append(data[i])
-        for j in range(l//2, l):
+        for j in range(l // 2, l):
             if Temp.objects.filter(id=data[j]).exists():
                 res.append(data[j])
                 Temp.objects.get(id=data[j]).delete()
 
         return Response([{"deleted ids": res}], status=status.HTTP_201_CREATED)
 
+
 class Scenario11(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, format=None):
         temp = []
-        res =  Person.objects.values("id")
+        res = Person.objects.values("id")
         temp.append({"values": list(res)})
 
         res = Person.objects.values_list("id")
@@ -268,13 +279,13 @@ class Scenario11(APIView):
         res = PersonSerializer(Person.objects.only("id"), many=True).data
         temp.append({"only": res})
 
-        res = PersonSerializer(Person.objects.defer("information", "place","task","name"), many=True).data
+        res = PersonSerializer(Person.objects.defer("information", "place", "task", "name"), many=True).data
         temp.append({"defer": res})
-
 
         temp.append({"queries": str(len(connection.queries))})
 
         return Response(temp)
+
 
 class Scenario11_1(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -285,6 +296,7 @@ class Scenario11_1(APIView):
 
         return Response(temp)
 
+
 def is_json(data):
     try:
         json_data = json.loads(data)
@@ -293,14 +305,17 @@ def is_json(data):
         is_valid = False
     return is_valid
 
+
 from .serializers import PersonSerializerX
+
+
 class Scenario11_2(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-    def get(self, request,id, format=None):
+    def get(self, request, id, format=None):
         data = request.GET.get('data', None)
-        if(Person.objects.filter(id=id).exists()):
-            if(data == "true"):
+        if (Person.objects.filter(id=id).exists()):
+            if (data == "true"):
                 return Response(PersonSerializerX(Person.objects.get(id=id)).data)
             else:
                 return Response("False")
@@ -320,10 +335,11 @@ class Transactions(APIView):
         Publication.objects.create(title='IEg');
         Reporter.objects.create(id=4, firstname="mikes", lastname="Dixon");
         PlaceX.objects.create(name="Hyderabad_");
-        Content.objects.create(content_slug="www.sdjkfnsad.com",content_title="Rest framework", content_headline="API Learning");
-        Vehicle.objects.create(lp_number="ap23ts1324",wheel_count=4, manufacturer="Suzuki");
+        Content.objects.create(content_slug="www.sdjkfnsad.com", content_title="Rest framework",
+                               content_headline="API Learning");
+        Vehicle.objects.create(lp_number="ap23ts1324", wheel_count=4, manufacturer="Suzuki");
 
-        return Response("Succesfull",status=status.HTTP_201_CREATED)
+        return Response("Succesfull", status=status.HTTP_201_CREATED)
 
 
 # Returned  co-routine ???
@@ -355,6 +371,8 @@ class Transactions(APIView):
 import asyncio
 from django.http import HttpResponse
 from asgiref.sync import sync_to_async
+
+
 # from channels.db import database_sync_to_async
 
 @sync_to_async
@@ -363,31 +381,39 @@ def get_vehicle(id):
         v = Vehicle.objects.get(id=id)
     return v
 
+
 @sync_to_async
-def update_wheel_count(obj,c):
-        obj.wheel_count = c
-        obj.save()
-        print("Updated the wheel count")
+def update_wheel_count(obj, c):
+    obj.wheel_count = c
+    obj.save()
+    print("Updated the wheel count")
+
+
 async def my_view(request):
     id = request.GET.get('id', None)
-    v =await get_vehicle(id)
+    v = await get_vehicle(id)
     print("Sleep for 10sec")
     await asyncio.sleep(1)
     print('Awake')
     await update_wheel_count(v, 5)
     return HttpResponse({f"Updated id: {id} wheel count to 5"})
+
+
 # ----------------------------------------------------------
 
 
-#--------------MIDDLEWARE------------------------------------
+# --------------MIDDLEWARE------------------------------------
 from rest_framework.parsers import JSONParser
-class Middleware(APIView): #(input: in content in API View ["gAAAAABgrgrPkaKxIZebn9k0s7CZC2dmne3JIG6EhkFjH5r0NyNQ1CavQMf38AWjFPtGDgMnFUdl-_a51BCMmStRhU1kPbZYcw=="])
+
+
+class Middleware(
+    APIView):  # (input: in content in API View ["gAAAAABgrgrPkaKxIZebn9k0s7CZC2dmne3JIG6EhkFjH5r0NyNQ1CavQMf38AWjFPtGDgMnFUdl-_a51BCMmStRhU1kPbZYcw=="])
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def post(self, request, format="None"):
         print("------------IN VIEW -------------")
         # input list of id's
-        print("Decrypted data from middleware",request.decrypted)
+        print("Decrypted data from middleware", request.decrypted)
 
         return Response("World")
 
@@ -395,4 +421,3 @@ class Middleware(APIView): #(input: in content in API View ["gAAAAABgrgrPkaKxIZe
 #     if request.method == 'POST':
 #         print("here", request.decrypted)
 #         return Response("World")
-

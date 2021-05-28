@@ -2,7 +2,8 @@ from django.contrib import admin
 
 # Register your Models here.
 
-from .models import Publication, Article, Reporter, Articler , Place, Restaurant, Content, Video, Person,InformationX, PlaceX, TaskX, VehicleXx , Temp ,  Car, Truck,Vehicle
+from .models import Publication, Article, Reporter, Articler, Place, Restaurant, Content, Video, Person, InformationX, \
+    PlaceX, TaskX, VehicleXx, Temp, Car, Truck, Vehicle
 
 
 # class ToDoListAdmin(admin.ModelAdmin):
@@ -19,8 +20,10 @@ class TempAdmin(admin.ModelAdmin):
         (None, {'fields': ['name']}),
     ]
 
+
 class VehicleAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
+
 
 admin.site.register(Publication)
 admin.site.register(Article)

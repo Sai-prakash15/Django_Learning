@@ -19,9 +19,9 @@ class Recipe(models.Model):
     class Meta(object):
         app_label = 'Caching'
         default_related_name = 'recipes'
+
     def __str__(self):
         return self.name
-
 
 
 class Food(models.Model):

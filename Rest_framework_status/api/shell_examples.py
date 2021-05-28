@@ -43,18 +43,14 @@ print(obj.delete())
 
 from rest_framework import serializers
 
+
 class CustomSerializer(serializers.ModelSerializer):
     content = serializers.CharField()
     email = serializers.EmailField()
 
+
 create_obj_serializer = CustomSerializer(data=data)
 
-if create_obj_serializer.is_valid(): # form.is_valid()
+if create_obj_serializer.is_valid():  # form.is_valid()
     valid_data = create_obj_serializer.data
     print(valid_data)
-
-
-
-
-
-

@@ -3,7 +3,8 @@ from django.shortcuts import render
 from .forms import UploadFileForm
 from rest_framework.views import APIView
 
-#Uploading a single file
+
+# Uploading a single file
 def upload_file(request):
     if request.method == 'POST':
         print("here", request.FILES)
@@ -16,12 +17,15 @@ def upload_file(request):
         form = UploadFileForm()
     return render(request, 'upload.html', {'form': form})
 
+
 def success(request):
     return render(request, 'success.html')
+
 
 from django.views.generic.edit import FormView
 from .forms import FileFieldForm
 from .models import FileUpload
+
 
 # Uploading multiple files
 class FileFieldFormView(FormView):
@@ -40,7 +44,8 @@ class FileFieldFormView(FormView):
         else:
             return self.form_invalid(form)
 
-import  base64
+
+import base64
 from rest_framework.response import Response
 # File data base 64 encoded via JSON
 import json
