@@ -41,7 +41,47 @@ import json
 #         # print(self.request.user)
 #         print(len(connection.queries))
 #         return qs
-# -------------------ORMS ----------------------------
+
+#------------------ custom View -------------------------
+
+# class CustomView(APIView):   # queries to access all the concrete and related fieds in car, vehicle
+#     def get(self, request, format=None):
+#
+#         qs = Articler.objects.all()
+#
+#         # Custom filtering
+#         query1 = self.request.GET.get('id')
+#         query2 = self.request.GET.get('headline')
+#         if query1 is not None and query2 is not None:
+#             qs = qs.filter(id=query1).filter(headline__iendswith=query2)
+#         elif query1 is not None:
+#             qs = qs.filter(id=query1)
+#         elif query2 is not None:
+#             qs = qs.filter(headline__iendswith=query2)
+#
+#         ## printing foreign key field data
+#         # Iterating
+#         # for i in qs:
+#         #     #print(qs)
+#         #     # print(i.reporter.first_name)
+#         #     print(i.reporter.firstname)
+#         # print(self.request.user)
+#
+#         # using queries
+#         temp = Articler.objects.values("reporter__firstname")
+#         print(temp)
+#
+#         queries = len(connection.queries)
+#         temp = {}
+#         temp["queries"] = queries
+#         serialized_data = ArticlerSerializer(qs, many=True)
+#         data = [temp]
+#         return Response(serialized_data.data + data)
+
+
+
+
+#-------------------ORMS ----------------------------
 ## Using API view
 class Scenario1(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

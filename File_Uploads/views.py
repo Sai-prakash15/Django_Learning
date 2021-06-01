@@ -1,11 +1,21 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from .forms import UploadFileForm
 from rest_framework.views import APIView
 
 
+
 # Uploading a single file
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import  permission_classes
+from rest_framework.decorators import api_view
+#Uploading a single file and applying all the  authentication provided by DRF
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def upload_file(request):
+    # if request.user.is_anonymous:
+    #     return HttpResponse(status=401)
     if request.method == 'POST':
         print("here", request.FILES)
         form = UploadFileForm(request.POST, request.FILES)

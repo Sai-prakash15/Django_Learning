@@ -212,7 +212,12 @@ class VehicleXx(models.Model):
         if self.wheel_count <= 1 and self.wheel_count is not None:
             raise ValidationError(('Wheel count must be greater than 1'), code='invalid')
 
-    def __str__(self):
+    #calling clean evertime before save using oops
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):  # __unicode__ on Python 2
         return self.lp_number
 
 
