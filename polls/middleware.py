@@ -28,15 +28,14 @@ class CustomMiddleWare:
     #     return view_func(request)
 
     def process_request(self, request):
-        if (request.path not in urls):
-            return request
         print("PROCESS REQUEST")
         if (request.method == "POST"):
             print("Before decryption", request.body)
             f = Fernet(key)
+
             decrypted = f.decrypt(request.body)
             print("After decryption", decrypted)
-            request.decrypted = decrypted
+            request._body = decrypted
             # print(request.body)
             # body = json.loads(request.body)
             # print(body)
@@ -45,10 +44,7 @@ class CustomMiddleWare:
     def process_response(self, request, response):
 
         print("PROCESS RESPONSE")
-        if (request.path not in urls):
-            return
         if (request.method == "POST"):
-            # print(request.body)
             print("Before encrypting response", response.data)
             fernet = Fernet(key)
             encrypted = fernet.encrypt(response.data.encode())  # Here request.body should be encrypted

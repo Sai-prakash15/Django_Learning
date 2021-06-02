@@ -52,7 +52,7 @@ import json
 
 from Induction.settings import key
 
-<<<<<<< HEAD
+
 
 # ENDPOINT = "http://127.0.0.1:8000/new/"
 # AUTH_ENDPOINT = "http://127.0.0.1:8000/api/token/"
@@ -108,7 +108,7 @@ from Induction.settings import key
 # print(r)
 # token = r.json()["access_token"]
 
-=======
+
 ENDPOINT = "http://127.0.0.1:8000/new/"
 AUTH_ENDPOINT = "http://127.0.0.1:8000/api/token/"
 data = {
@@ -141,7 +141,6 @@ post_headers = {
 }
 
 post_response = requests.post(ENDPOINT, data=post_data, headers=post_headers)
-print("Response Decrypted :", post_response.text)
+print("Response Encrypted :", post_response.text)
 
-print("After decrypting response", f.decrypt(post_response.text.encode()).decode('UTF-8'))
->>>>>>> master
+print("After decrypting response:", f.decrypt(post_response.text.encode()).decode('UTF-8'))

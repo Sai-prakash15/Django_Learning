@@ -459,7 +459,7 @@ class Middleware(
     def post(self, request, format="None"):
         print("------------IN VIEW -------------")
         # input list of id's
-        print("Decrypted data from middleware", request.decrypted)
+        print("Decrypted data from middleware", request.body)
 
         return Response("World")
 

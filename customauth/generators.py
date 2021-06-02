@@ -26,4 +26,4 @@ def generate_client_secret():
     client_secret_generator = ClientSecretGenerator()
     return client_secret_generator.hash()
 
-print(generate_client_secret())
+# print(generate_client_secret())
