@@ -8,6 +8,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'customauth.auth.CustomAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'Induction.restconf.pagination.customPagination',
     'DEFAULT_FILTER_BACKENDS': (

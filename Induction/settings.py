@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'File_Uploads',
     'polls',
     'Signals',
-    'Caching'
+    'Caching',
+    'customauth'
 ]
 
 MIDDLEWARE = [
@@ -190,4 +191,9 @@ from cryptography.fernet import Fernet
 
 # key = Fernet.generate_key()
 
-key = b'v4wW-6ilWL-AQOg-wju2pwoCNWS7vXB7_xlIVQsxIBU='
+key =  b'v4wW-6ilWL-AQOg-wju2pwoCNWS7vXB7_xlIVQsxIBU='
+
+
+#Custom auth view
+
+# USE_X_FORWARDED_PORT = True

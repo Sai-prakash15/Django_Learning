@@ -22,8 +22,11 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from rest_framework import routers
+router = routers.DefaultRouter()
 
 urlpatterns = [
+    path('',include(router.urls)),
     path('admin/', admin.site.urls),
     path('', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -39,5 +42,6 @@ urlpatterns = [
     path('dbtransactions/', Transactions.as_view()),
     path('sleep_async/', my_view),
     path('caching/', include('Caching.urls')),
+    path('customauth/', include('customauth.urls')),
     path('encrypt_decrypt/', Middleware.as_view()),
 ]
