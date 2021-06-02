@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.conf.urls import url
-from .views import  StatusAPIView
+from .views import StatusAPIView
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
 router = DefaultRouter()
@@ -22,7 +22,7 @@ router.register('', StatusAPIView)
 # })
 
 urlpatterns = [
-    path('',include(router.urls)),
+    path('', include(router.urls)),
     # path('<int:id>/', Status_detail),
     # url('create/$', StatusAPIView.as_view()),
     # url(r'^(?P<id>.*)/$',StatusAPIView.as_view()),

@@ -66,8 +66,9 @@ class CustomAuthentication(BaseAuthentication):
         Returns:
             [user] -- [user obj]
         """
-        if AuthToken.objects.filter(access_token=auth).exists():
-            token = AuthToken.objects.get(access_token=auth)
+        AuthToken_ = AuthToken.objects.filter(access_token=auth)
+        if AuthToken_.exists():
+            token = AuthToken.access_token
             user = User.objects.get_or_create(username=token.user)[0]
             # print(user)
             if token.expiry_date < timezone.now():

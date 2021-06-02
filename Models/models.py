@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 # presave so clean would be invoked before save automatically
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
+
+
 # from django.contrib.sessions import Session
 
 # @receiver(pre_save)
@@ -21,7 +23,7 @@ class Timestamp(models.Model):
     modifieddate = models.DateField(auto_now=True)
     createddate = models.DateField(auto_now_add=True)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return str(self.modifieddate)
 
     class Meta:
@@ -81,6 +83,7 @@ class PlaceX(models.Model):
     def __str__(self):
         return "%s the place" % self.name
 
+
 class Place(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=80, blank=True)
@@ -132,7 +135,7 @@ class Video(Content):
     video_embed = models.TextField(null=True, blank=True)
     video_copyright = models.TextField(null=True, blank=True)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.content_title
 
     class Meta:
@@ -152,7 +155,7 @@ class Vehicle(models.Model):
         if self.wheel_count <= 1 and self.wheel_count is not None:
             raise ValidationError(('Wheel count must be greater than 1'), code='invalid')
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.lp_number
 
 
@@ -161,7 +164,7 @@ class Car(Vehicle):
     has_roof_top = models.BooleanField(blank=False)
     trunk_space = models.FloatField()
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.lp_number
 
 
@@ -169,37 +172,37 @@ class Truck(Vehicle):
     is_semi_truck = models.BooleanField(blank=False)
     max_goods_weight = models.FloatField()
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.lp_number
 
 
 class InformationX(models.Model):
     content = models.CharField(max_length=20)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.content
 
 
 class TaskX(models.Model):
     taskName = models.CharField(max_length=20)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.taskName
+
 
 # Model X
 class Person(models.Model):
     name = models.CharField(max_length=50)
-    task = models.ForeignKey(TaskX, on_delete=models.CASCADE); #many humans can work on one particular task
+    task = models.ForeignKey(TaskX, on_delete=models.CASCADE);  # many persons can work on one particular task
     place = models.OneToOneField(PlaceX, on_delete=models.CASCADE);
     information = models.ManyToManyField(InformationX)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return self.name
 
 
-
 class VehicleXx(models.Model):
-    person =  models.ForeignKey(Person, on_delete=models.CASCADE); #  One herson can own many vehicles
+    person = models.ForeignKey(Person, on_delete=models.CASCADE);  # One person can own many vehicles
     lp_number = models.CharField(max_length=20, unique=True)
     wheel_count = models.IntegerField()
     manufacturer = models.CharField(max_length=100)
@@ -209,14 +212,19 @@ class VehicleXx(models.Model):
         if self.wheel_count <= 1 and self.wheel_count is not None:
             raise ValidationError(('Wheel count must be greater than 1'), code='invalid')
 
+    #calling clean evertime before save using oops
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):  # __unicode__ on Python 2
         return self.lp_number
 
 
-
-#Model for scenario 10
+# Model for scenario 10
 
 class Temp(models.Model):
     name = models.CharField(max_length=50)
-    def __str__(self):  # __unicode__ on Python 2
+
+    def __str__(self):
         return self.name

@@ -18,6 +18,7 @@ class StatusSerializer(serializers.ModelSerializer):
             'image'
         ]
         read_only_fields = ['user']
+
     # def validate_content(self, value):
     #     if len(value) > 10000000:
     #         raise serializers.ValidationError("Way too long")
@@ -31,5 +32,3 @@ class StatusSerializer(serializers.ModelSerializer):
         if content is None and image is None:
             raise serializers.ValidationError("content or image is required")
         return data
-
-

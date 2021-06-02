@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,11 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #third-part
+    # third-part
     'rest_framework',
     'django_extensions',
     'debug_toolbar',
-    #local
+    # local
     'Models',
     'Rest_framework_status',
     'Csrf',
@@ -85,21 +83,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Induction.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'induction', #name of the database
+        'NAME': 'induction',  # name of the database
         'USER': 'sonuch',
         'PASSWORD': 'sonuch',
         'HOST': 'localhost',
         'PORT': '',
     }
 }
-#--------------CACHING---------------
+# --------------CACHING---------------
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -131,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -144,7 +140,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 SHELL_PLUS_PRINT_SQL = True;
 
@@ -159,10 +154,10 @@ INTERNAL_IPS = [
     # ...
 ]
 
-
 from Induction.restconf.main import *
 
 from datetime import timedelta
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -193,6 +188,7 @@ SIMPLE_JWT = {
 }
 
 from cryptography.fernet import Fernet
+
 # key = Fernet.generate_key()
 
 key =  b'v4wW-6ilWL-AQOg-wju2pwoCNWS7vXB7_xlIVQsxIBU='

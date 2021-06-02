@@ -2,13 +2,15 @@ import json
 from rest_framework.response import Response
 from cryptography.fernet import Fernet
 import cryptography
-from Induction.settings import  key
+from Induction.settings import key
 from django.http import HttpResponse
+
 urls = ["/new/"]
+
+
 class CustomMiddleWare:
     def __init__(self, get_response):
         self.get_response = get_response
-
 
     def __call__(self, request):
         if (request.path not in urls):
@@ -29,11 +31,11 @@ class CustomMiddleWare:
         if (request.path not in urls):
             return request
         print("PROCESS REQUEST")
-        if(request.method == "POST"):
-            print("Before decryption",request.body)
+        if (request.method == "POST"):
+            print("Before decryption", request.body)
             f = Fernet(key)
             decrypted = f.decrypt(request.body)
-            print("After decryption",decrypted)
+            print("After decryption", decrypted)
             request.decrypted = decrypted
             # print(request.body)
             # body = json.loads(request.body)
@@ -47,13 +49,13 @@ class CustomMiddleWare:
             return
         if (request.method == "POST"):
             # print(request.body)
-            print("Before encrypting response",response.data)
+            print("Before encrypting response", response.data)
             fernet = Fernet(key)
             encrypted = fernet.encrypt(response.data.encode())  # Here request.body should be encrypted
-            print("After encrypted response",encrypted)
+            print("After encrypted response", encrypted)
             return HttpResponse(encrypted)
             # response = decrypted
-            #print(dir(response))
+            # print(dir(response))
             # print(response.data["results"])
             # print(response.results)
             # body = json.loads(response.results)

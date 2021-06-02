@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -39,7 +38,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('desc', models.TextField(blank=True, null=True)),
                 ('instructions', models.TextField(blank=True, null=True)),
-                ('ingredients', models.ManyToManyField(related_name='recipes', through='Caching.Ingredient', to='Caching.Food')),
+                ('ingredients',
+                 models.ManyToManyField(related_name='recipes', through='Caching.Ingredient', to='Caching.Food')),
             ],
             options={
                 'default_related_name': 'recipes',

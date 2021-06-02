@@ -17,7 +17,7 @@ import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
 from File_Uploads import views
-from Models.views import  Transactions, my_view, Middleware #Sleep_Async
+from Models.views import Transactions, my_view, Middleware  # Sleep_Async
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
