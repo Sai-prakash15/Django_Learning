@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import  permission_classes
 from rest_framework.decorators import api_view
 #Uploading a single file and applying all the  authentication provided by DRF
-@api_view(['GET'])
+@api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 def upload_file(request):
     # if request.user.is_anonymous:
@@ -63,8 +63,21 @@ import json
 
 class Base64(APIView):
     def post(self, request):
-        data = request.data['encoded_data']  # {"encoded_data": "aGVsbG8="}
-        decoded = base64.b64decode(data)
+        file = request.FILES['file_field']
+        print(type(file))
+        print(dir(file))
+        encoded_data = file.read()
+        # print(files[0])
+        # data = request.data['encoded_data']  # {"encoded_data": "aGVsbG8="}
+
+
+        decoded = base64.b64decode(encoded_data)
+
+        f = open(r"updates/{user}/files/{filename}".format(user=request.user, filename=file), 'w')
+        print("updates/{user}/files/{filename}".format(user=request.user, filename=file))
+        f.write(str(decoded))
+        f.close()
+        # Error handlibg in the future
         return Response({
             'Decoded text ': decoded
         })

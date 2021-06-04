@@ -66,14 +66,14 @@ class CustomAuthentication(BaseAuthentication):
         Returns:
             [user] -- [user obj]
         """
-        AuthToken_ = AuthToken.objects.filter(access_token=auth)
-        if AuthToken_.exists():
-            token = AuthToken.access_token
-            user = User.objects.get_or_create(username=token.user)[0]
+        _AuthToken = AuthToken.objects.filter(access_token=auth)
+        if _AuthToken.exists():
+            token = _AuthToken[0].access_token
+            user = User.objects.get_or_create(username=_AuthToken[0].user)[0]
             # print(user)
-            if token.expiry_date < timezone.now():
-                token.expired = True
-                token.save()
+            if _AuthToken[0].expiry_date < timezone.now():
+                _AuthToken[0].expired = True
+                _AuthToken[0].save()
                 raise TokenExpired()
             return user
         else:
