@@ -7,7 +7,7 @@ from django.views import View
 
 
 class Index(View):
-    template_name = 'index.html'
+    template_name = 'inde.html'
 
     def get(self, request):
         # <view logic>

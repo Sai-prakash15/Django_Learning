@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'polls',
     'Signals',
     'Caching',
-    'customauth'
+    'customauth',
+    'cookies'
 ]
 
 MIDDLEWARE = [
