@@ -45,5 +45,6 @@ urlpatterns = [
     path('customauth/', include('customauth.urls')),
     path('encrypt_decrypt/', Middleware.as_view()),
     path('new/', Middleware.as_view()),
-    path('cookies/',include('cookies.urls'))
+    path('cookies/',include('cookies.urls')),
+    path('sessionApp/', include('sessionApp.urls'))
 ]

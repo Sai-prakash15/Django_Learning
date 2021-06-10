@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'Signals',
     'Caching',
     'customauth',
-    'cookies'
+    'cookies',
+    'sessionApp'
 ]
 
 MIDDLEWARE = [
