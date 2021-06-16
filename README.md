@@ -4,7 +4,7 @@
   
 
   
-This project mainly showcases most of the concepts in Django
+This project mainly showcases the concepts used in Django
 
 Concepts covered are:
 
